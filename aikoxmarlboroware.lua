@@ -1,44 +1,20 @@
--- Debug version to find the issue
-print("=== LOADER DEBUG START ===")
+-- First, let's find out the UniverseId
 print("Current PlaceId:", game.PlaceId)
-print("PlaceId type:", type(game.PlaceId))
+print("Current GameId (UniverseId):", game.GameId)
+print("Game Name:", game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
 
-local success, gs = pcall(function()
-    return loadstring(game:HttpGet("https://raw.githubusercontent.com/a11bove/Aiko-Hub/refs/heads/main/loader/gamelist.lua"))()
-end)
+-- Updated gamelist using GameId instead of PlaceId
+local gs = {
+    -- Use GameId (UniverseId) instead of PlaceId
+    -- You'll need to find the correct GameId for 99 Nights
+    [YOUR_GAME_ID_HERE] = "https://raw.githubusercontent.com/a11bove/kdoaz/refs/heads/main/loader/scripts/aiko99NITF.lua", -- 99 Nights in The Forest
+    [3101667897] = "https://raw.githubusercontent.com/a11bove/kdoaz/refs/heads/main/loader/scripts/aikoTheForge.lua", -- The Forge (example GameId)
+}
 
-if not success then
-    warn("Failed to load gamelist:", gs)
-    return
-end
-
-print("Gamelist loaded successfully!")
-print("Gamelist type:", type(gs))
-
-if gs then
-    print("\n=== Checking all PlaceIDs in gamelist ===")
-    for PlaceID, Execute in pairs(gs) do
-        print("PlaceID in list:", PlaceID, "| Type:", type(PlaceID))
-        print("Comparing:", tostring(PlaceID), "vs", tostring(game.PlaceId))
-        print("Match?", tostring(PlaceID) == tostring(game.PlaceId))
-        
-        if tostring(PlaceID) == tostring(game.PlaceId) then
-            print("\n=== MATCH FOUND! ===")
-            print("Loading script from:", Execute)
-            
-            local scriptSuccess, scriptError = pcall(function()
-                loadstring(game:HttpGet(Execute))()
-            end)
-            
-            if scriptSuccess then
-                print("Script executed successfully!")
-            else
-                warn("Script execution failed:", scriptError)
-            end
-            break
-        end
+for GameID, Execute in pairs(gs) do
+    if GameID == game.GameId then
+        print("Match found! Loading script...")
+        loadstring(game:HttpGet(Execute))()
+        break
     end
-    print("\n=== LOADER DEBUG END ===")
-else
-    warn("Gamelist is nil or invalid")
 end
