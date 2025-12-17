@@ -1,7 +1,5 @@
 local gs = loadstring(game:HttpGet("https://raw.githubusercontent.com/a11bove/kdoaz/refs/heads/main/loader/gamelist.lua"))()
-
-local URL = gs[game.GameId]
-
+local URL = gs[game.GameId] or gs[game.PlaceId]
 if URL then
-  loadstring(game:HttpGet(URL))()
+    loadstring(game:HttpGet(URL))()
 end
