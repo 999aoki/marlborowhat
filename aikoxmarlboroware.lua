@@ -5,5 +5,5 @@ if URL then
     print("Loading Script For: " .. game.Name)
     loadstring(game:HttpGet(URL))()
 else
-    game:GetService"Players".LocalPlayer:Kick"[AIKOWARE]: Unsupported Game."
+    game:GetService"Players".LocalPlayer:Kick"Unsupported Game."
 end
